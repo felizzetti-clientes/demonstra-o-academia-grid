@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+/* =========================================================
+   Academia GRID — tokens da marca
+   Cores amostradas das fotos: faixa laranja do mezanino,
+   faixa preta da fachada e painéis grafite do prédio.
+   ========================================================= */
+@theme {
+  --color-laranja: #f05a1a;
+  --color-laranja-hover: #ff7034;
+  --color-preto: #0b0b0c;
+  --color-carvao: #131315;
+  --color-faixa: #1c1c1f;
+  --color-painel: #5b5e67;
+  --color-linha: #2a2a2e;
+  --color-texto: #ececee;
+  --color-suave: #a9abb1;
+  --color-fraco: #8a8c93;
+
+  --breakpoint-xs: 30rem;
+  --container-site: 77.5rem;
+  --spacing-header: 4.75rem;
+}
+
+/* Fontes carregadas com next/font/local (variáveis definidas no layout) */
+@theme inline {
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-saira), system-ui, sans-serif;
+  --font-marca: var(--font-chakra), system-ui, sans-serif;
+}
+
+/* ---------- Utilitários próprios ---------- */
+
+/* Títulos largos e pesados, como a faixa interna da academia */
+@utility titulo {
+  font-family: var(--font-display);
+  font-stretch: 118%;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 0.96;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
+/* Rótulos técnicos */
+@utility rotulo {
+  font-family: var(--font-marca);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+/* Barras diagonais — referência direta à faixa do mezanino */
+@utility listras {
+  background-image: repeating-linear-gradient(115deg, var(--color-laranja) 0 5px, transparent 5px 12px);
+}
+@utility listras-finas {
+  background-image: repeating-linear-gradient(115deg, var(--color-laranja) 0 3px, transparent 3px 7px);
+}
+@utility listras-pretas {
+  background-image: repeating-linear-gradient(115deg, var(--color-preto) 0 6px, transparent 6px 15px);
+}
+@utility listras-fundo {
+  background-image: repeating-linear-gradient(115deg, rgb(240 90 26 / 0.07) 0 2px, transparent 2px 22px);
+}
+
+/* Cantos chanfrados, como as letras do logotipo */
+@utility chanfro {
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+@utility chanfro-foto {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 44px), calc(100% - 44px) 100%, 0 100%);
+}
+@utility marcador {
+  clip-path: polygon(0 0, 100% 0, 100% 60%, 60% 100%, 0 100%);
+}
+
+/* Números vazados em laranja */
+@utility contorno {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-laranja);
+}
+
+/* Fio de LED do teto do salão */
+@utility led {
+  height: 2px;
+  background: var(--color-laranja);
+  box-shadow: 0 0 14px rgb(240 90 26 / 0.55);
+}
+
+@utility sem-barra {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ---------- Base ---------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--spacing-header) + 1rem);
+    color-scheme: dark;
+  }
+  body {
+    background: var(--color-preto);
+    color: var(--color-texto);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--color-laranja);
+    color: #000;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-laranja);
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+/* ---------- Entrada discreta dos blocos (CSS puro, sem JavaScript) ----------
+   Usa animações guiadas pela rolagem quando o navegador suporta; caso contrário,
+   o conteúdo simplesmente aparece. Desativada com "reduzir movimento". */
+@layer components {
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .surge {
+        animation: surgir linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 28%;
+      }
+    }
+  }
+}
+
+@keyframes surgir {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
